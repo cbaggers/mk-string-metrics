@@ -1,7 +1,7 @@
 # mk-string-metrics
 
-For now, the library implements efficient Hamming, Levenshtein, and
-Damerau-Levenshtein algorithms.
+For now, the library implements efficient algorithms to calculate Hamming,
+Levenshtein, and Damerau-Levenshtein distances.
 
 ## Installation
 
