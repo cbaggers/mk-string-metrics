@@ -30,7 +30,7 @@
                #:levenshtein
                #:damerau-levenshtein))
 
-(in-package :mk-string-metrics)
+(in-package #:mk-string-metrics)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun hamming (x y)
