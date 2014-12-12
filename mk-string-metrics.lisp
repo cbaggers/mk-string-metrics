@@ -77,7 +77,7 @@ strings."
   (defun damerau-levenshtein (x y)
     "This function calculates Damerau-Levenshtein distance between two given
 strings."
-    (declare (type (simple-array) x y)
+    (declare (type (simple-array character) x y)
              (inline length)
              (optimize (safety 0) (speed 3) (space 3)))
     (let* ((x-len (length x))
