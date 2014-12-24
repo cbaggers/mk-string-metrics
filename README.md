@@ -8,6 +8,12 @@ Levenshtein, and Damerau-Levenshtein distances.
 Copy files of this library in any place where ASDF can find them. Then you
 can use it in system definitions and ASDF will take care of the rest.
 
+Via Quicklisp:
+
+```
+(ql:quickload "mk-string-metrics")
+```
+
 ## Syntax and Description
 
 `hamming x y`
