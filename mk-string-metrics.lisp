@@ -24,11 +24,15 @@
 ;;; OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 ;;; WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(cl:defpackage #:mk-string-metrics
+(cl:defpackage :mk-string-metrics
+  (:nicknames  :mksm)
   (:use        #:common-lisp)
   (:export     #:hamming
                #:levenshtein
-               #:damerau-levenshtein))
+               #:damerau-levenshtein
+               #:norm-levenshtein
+               #:norm-damerau-levenshtein
+               #:overlap))
 
 (in-package #:mk-string-metrics)
 
@@ -112,8 +116,59 @@ strings."
             (let ((x-i-1 (char x (1- i)))
                   (y-j-1 (char y (1- j)))
                   (val (+ (aref v* (1- j)) cost)))
+              (declare (type character x-i-1 y-j-1)
+                       (type array-index val))
               (when (and (char= x-i y-j-1)
                          (char= x-i-1 y-j)
                          (< val (aref v1 (1+ j))))
                 (setf (aref v1 (1+ j)) val))))))
       (rotatef v* v0 v1))))
+
+(defun norm-levenshtein (x y)
+  "Returns normalized Levenshtein distance between X and Y. Result is a real
+number from 0 to 1, where 0 signifies no similarity between the strings,
+while 1 means exact match."
+  (declare (type (simple-array character) x y)
+           (optimize (safety 0) (speed 3) (space 3)))
+  (- 1 (the array-index
+            (/ (levenshtein x y)
+               (max (length x)
+                    (length y))))))
+
+(defun norm-damerau-levenshtein (x y)
+  "Returns normalized Damerau-Levenshtein distance between X and Y. Result
+is a real number from 0 to 1, where 0 signifies no similarity between the
+strings, while 1 means exact match."
+  (declare (type (simple-array character) x y)
+           (optimize (safety 0) (speed 3) (space 3)))
+  (- 1 (the array-index
+            (/ (damerau-levenshtein x y)
+               (max (length x)
+                    (length y))))))
+
+(defun overlap (x y)
+  "This function calculates overlap coefficient between two given strings."
+  (declare (type (simple-array character) x y)
+           (optimize (safety 0) (speed 3) (space 3)))
+  (let* ((len-x (length x))
+         (len-y (length y))
+         (n 0))
+    (declare (type array-index n))
+    (multiple-value-bind (g-set l-set g-len l-len)
+        (if (>= len-x len-y)
+            (values x y len-x len-y)
+            (values y x len-y len-x))
+      (/ (dotimes (i g-len n)
+           (do ((j 0 (1+ j))
+                result)
+               ((or result (= j l-len))
+                result)
+             (when (char= (char g-set i)
+                          (char l-set j))
+               (setf result t)
+               (incf n))))
+         l-len))))
+
+(defmacro test-it (fnc n)
+  `(time (dotimes (x ,n)
+           (,fnc "this is a long string" "that's a long string"))))

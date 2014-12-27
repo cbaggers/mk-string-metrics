@@ -25,7 +25,7 @@
 ;;; WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 (asdf:defsystem :mk-string-metrics
-  :version      "0.1.0"
+  :version      "0.1.1"
   :description  "efficient implementations of various string metric algorithms"
   :author       "Mark Karpov"
   :license      "MIT"

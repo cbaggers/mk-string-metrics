@@ -1,7 +1,7 @@
 # mk-string-metrics
 
-For now, the library implements efficient algorithms to calculate Hamming,
-Levenshtein, and Damerau-Levenshtein distances.
+For now, the library implements efficient algorithms that calculates various
+string metrics.
 
 ## Installation
 
@@ -14,21 +14,49 @@ Via Quicklisp:
 (ql:quickload "mk-string-metrics")
 ```
 
-## Syntax and Description
+## Description
 
-`hamming x y`
+```
+hamming x y
+```
 
 Calculates Hamming distance between two given strings, they have to be of
 the same length.
 
-`levenshtein x y`
+```
+levenshtein x y
+```
 
 This function calculates Levenshtein distance between two given strings.
 
-`damerau-levenshtein x y`
+```
+damerau-levenshtein x y
+```
 
 This function calculates Damerau-Levenshtein distance between two given
 strings.
+
+```
+norm-levenshtein x y
+```
+
+Returns normalized Levenshtein distance between X and Y. Result is a real
+number from 0 to 1, where 0 signifies no similarity between the strings,
+while 1 means exact match.
+
+```
+norm-damerau-levenshtein x y
+```
+
+Returns normalized Damerau-Levenshtein distance between X and Y. Result is a
+real number from 0 to 1, where 0 signifies no similarity between the
+strings, while 1 means exact match.
+
+```
+overlap x y
+```
+
+This function calculates overlap coefficient between two given strings.
 
 ## License
 
