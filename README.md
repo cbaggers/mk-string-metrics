@@ -1,7 +1,7 @@
 # mk-string-metrics
 
-For now, the library implements efficient algorithms that calculates various
-string metrics.
+This library implements efficient algorithms that calculate various string
+metrics in Common Lisp.
 
 ## Installation
 
