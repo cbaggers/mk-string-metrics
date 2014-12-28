@@ -1,9 +1,7 @@
 # mk-string-metrics
 
 This library implements efficient algorithms that calculate various string
-metrics in Common Lisp.
-
-The library provides functions to calculate:
+metrics in Common Lisp:
 
 * [Damerau-Levenshtein
   distance](http://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance);
