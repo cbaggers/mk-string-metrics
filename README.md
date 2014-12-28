@@ -52,8 +52,8 @@ the same length.
 jaccard x y
 ```
 
-Calculates Jaccard distance between two strings. Returned value is in range
-from 0 (no similarity) to 1 (exact match).
+Calculates Jaccard similarity coefficient for two strings. Returned value is
+in range from 0 (no similarity) to 1 (exact match).
 
 ```
 jaro x y
