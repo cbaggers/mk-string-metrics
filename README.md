@@ -9,7 +9,7 @@ The library provides functions to calculate:
   distance](http://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance);
 * [Hamming distance](http://en.wikipedia.org/wiki/Hamming_distance);
 * [Jaccard similarity
-  Coefficient](http://en.wikipedia.org/wiki/Jaccard_index);
+  coefficient](http://en.wikipedia.org/wiki/Jaccard_index);
 * [Jaro
   distance](http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance);
 * [Jaro-Winkler
@@ -19,7 +19,7 @@ The library provides functions to calculate:
   distance](http://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance);
 * [Normalized Levenshtein
   distance](http://en.wikipedia.org/wiki/Levenshtein_distance);
-* [Overlap Coefficient](http://en.wikipedia.org/wiki/Overlap_coefficient).
+* [Overlap coefficient](http://en.wikipedia.org/wiki/Overlap_coefficient).
 
 ## Installation
 
@@ -96,6 +96,11 @@ overlap x y
 ```
 
 This function calculates overlap coefficient between two given strings.
+
+## Something missing?
+
+Let me know if you would like to see more functions in this library. Open an
+issue and tell me what's missing.
 
 ## License
 
