@@ -32,7 +32,10 @@
                #:damerau-levenshtein
                #:norm-levenshtein
                #:norm-damerau-levenshtein
-               #:overlap))
+               #:overlap
+               #:jaccard
+               #:jaro
+               #:jaro-winkler))
 
 (in-package #:mk-string-metrics)
 
@@ -63,8 +66,7 @@ strings."
          (y-len (length y))
          (v0 (make-array (1+ y-len) :element-type 'array-index))
          (v1 (make-array (1+ y-len) :element-type 'array-index)))
-    (declare (type array-index x-len y-len)
-             (type (simple-array array-index) v0 v1))
+    (declare (type (simple-array array-index) v0 v1))
     (dotimes (i (1+ y-len))
       (declare (type array-index i))
       (setf (aref v0 i) i))
@@ -93,8 +95,7 @@ strings."
          (v0 (make-array (1+ y-len) :element-type 'array-index))
          (v1 (make-array (1+ y-len) :element-type 'array-index))
          (v* (make-array (1+ y-len) :element-type 'array-index)))
-    (declare (type array-index x-len y-len)
-             (type (simple-array array-index) v0 v1 v*))
+    (declare (type (simple-array array-index) v0 v1 v*))
     (dotimes (i (1+ y-len))
       (declare (type array-index i))
       (setf (aref v0 i) i))
@@ -128,47 +129,124 @@ strings."
   "Returns normalized Levenshtein distance between X and Y. Result is a real
 number from 0 to 1, where 0 signifies no similarity between the strings,
 while 1 means exact match."
-  (declare (type (simple-array character) x y)
-           (optimize (safety 0) (speed 3) (space 3)))
-  (- 1 (the array-index
-            (/ (levenshtein x y)
-               (max (length x)
-                    (length y))))))
+  (- 1 (/ (levenshtein x y)
+          (max (length x)
+               (length y)))))
 
 (defun norm-damerau-levenshtein (x y)
   "Returns normalized Damerau-Levenshtein distance between X and Y. Result
 is a real number from 0 to 1, where 0 signifies no similarity between the
 strings, while 1 means exact match."
-  (declare (type (simple-array character) x y)
+  (- 1 (/ (damerau-levenshtein x y)
+          (max (length x)
+               (length y)))))
+
+(defun fast-find (char str str-len &optional (start 0))
+  "Checks if CHAR is in STR. This function is supposed to be inlined."
+  (declare (type character char)
+           (type (simple-array character) str)
+           (type array-index str-len start)
            (optimize (safety 0) (speed 3) (space 3)))
-  (- 1 (the array-index
-            (/ (damerau-levenshtein x y)
-               (max (length x)
-                    (length y))))))
+  (do ((i start (1+ i)))
+      ((>= i str-len))
+    (declare (type array-index i))
+    (when (char= char (char str i))
+      (return-from fast-find i))))
+
+(defun intersection-length (x y x-len y-len)
+  "Returns length of intersection of two strings. This function is supposed
+to be inlined."
+  (declare (type (simple-array character) x y)
+           (type array-index x-len y-len)
+           (inline fast-find)
+           (optimize (safety 0) (speed 3) (space 3)))
+  (let ((result 0))
+    (declare (type array-index result))
+    (dotimes (i x-len)
+      (when (fast-find (char x i) y y-len)
+        (incf result)))
+    result))
 
 (defun overlap (x y)
-  "This function calculates overlap coefficient between two given strings."
+  "This function calculates overlap coefficient between two given
+strings. Returned value is in range from 0 (no similarity) to 1 (exact match)."
   (declare (type (simple-array character) x y)
+           (inline length intersection-length)
            (optimize (safety 0) (speed 3) (space 3)))
-  (let* ((len-x (length x))
-         (len-y (length y))
-         (n 0))
-    (declare (type array-index n))
-    (multiple-value-bind (g-set l-set g-len l-len)
-        (if (>= len-x len-y)
-            (values x y len-x len-y)
-            (values y x len-y len-x))
-      (/ (dotimes (i g-len n)
-           (do ((j 0 (1+ j))
-                result)
-               ((or result (= j l-len))
-                result)
-             (when (char= (char g-set i)
-                          (char l-set j))
-               (setf result t)
-               (incf n))))
-         l-len))))
+  (let ((x-len (length x))
+        (y-len (length y)))
+    (/ (the array-index (intersection-length x y x-len y-len))
+       (max x-len y-len))))
 
-(defmacro test-it (fnc n)
-  `(time (dotimes (x ,n)
-           (,fnc "this is a long string" "that's a long string"))))
+(defun jaccard (x y)
+  "Calculates Jaccard distance between two strings. Returned value is in
+range from 0 (no similarity) to 1 (exact match)."
+  (declare (type (simple-array character) x y)
+           (inline length intersection-length)
+           (optimize (safety 0) (speed 3) (space 3)))
+  (let ((x-len (length x))
+        (y-len (length y)))
+    (if (and (zerop x-len)
+             (zerop y-len))
+        1
+        (/ (the array-index (intersection-length x y x-len y-len))
+           (the array-index (+ x-len y-len))))))
+
+(defun jaro (x y)
+  "Calculates Jaro distance between two strings. Returned value is in range
+from 0 (no similarity) to 1 (exact match)."
+  (declare (type (simple-array character) x y)
+           (inline length fast-find)
+           (optimize (safety 0) (speed 1) (space 3)))
+  (let* ((x-len (length x))
+         (y-len (length y))
+         (d (- (floor (max x-len y-len) 2) 1))
+         (m 0)
+         (p 0)
+         (pj 0))
+    (declare (type array-index d m p pj))
+    (dotimes (i x-len)
+      (declare (type array-index i))
+      (let ((ch (char x i)))
+        (do ((j (fast-find ch y y-len 0)
+                (fast-find ch y y-len (1+ j)))
+             done)
+            ((or (null j) done))
+          (declare (type (or array-index null) j))
+          (when (and j (< (the array-index (abs (- i j)))
+                          d))
+            (when (and (plusp pj)
+                       (< j pj))
+              (incf p))
+            (setf pj   j
+                  done t)
+            (incf m)))))
+    (if (zerop m)
+        0
+        (/ (+ (/ m x-len)
+              (/ m y-len)
+              (/ (- m p) m))
+           3))))
+
+(defun prefix-length (x y)
+  "Calculates length of common prefix for strings X and Y."
+  (declare (type (simple-array character) x y)
+           (inline length)
+           (optimize (safety 0) (speed 3) (space 3)))
+  (let ((x-len (length x))
+        (y-len (length y))
+        (result 0))
+    (declare (type array-index result))
+    (dotimes (i x-len)
+      (if (and (< i y-len)
+               (char= (char x i)
+                      (char y i)))
+          (incf result)
+          (return-from prefix-length result)))))
+  
+(defun jaro-winkler (x y)
+  "Calculates Jaro-Winkler distance between two strings. Returned value is
+in range from 0 (no similarity) to 1 (exact match)."
+  (let ((jd (jaro x y))
+        (l  (prefix-length x y)))
+    (+ jd (* l 1/10 (- 1 jd)))))
