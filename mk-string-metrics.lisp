@@ -129,17 +129,85 @@ strings."
   "Returns normalized Levenshtein distance between X and Y. Result is a real
 number from 0 to 1, where 0 signifies no similarity between the strings,
 while 1 means exact match."
-  (- 1 (/ (levenshtein x y)
-          (max (length x)
-               (length y)))))
+  (let ((r (levenshtein x y)))
+    (if (zerop r)
+        1
+        (- 1 (/ r
+                (max (length x)
+                     (length y)))))))
 
 (defun norm-damerau-levenshtein (x y)
   "Returns normalized Damerau-Levenshtein distance between X and Y. Result
 is a real number from 0 to 1, where 0 signifies no similarity between the
 strings, while 1 means exact match."
-  (- 1 (/ (damerau-levenshtein x y)
-          (max (length x)
-               (length y)))))
+  (let ((r (damerau-levenshtein x y)))
+    (if (zerop r)
+        1
+        (- 1 (/ r
+                (max (length x)
+                     (length y)))))))
+
+(defun string-to-set (str)
+  "Converts string into a set. This function is supposed to be inlined."
+  (declare (type (simple-array character) str)
+           (inline length)
+           (optimize (safety 0) (speed 3) (space 3)))
+  (let ((result (make-hash-table)))
+    (dotimes (i (length str))
+      (setf (gethash (char str i) result) t))
+    result))
+
+(defun intersection-length (x y)
+  "Returns length of intersection of two strings. This function is supposed
+to be inlined."
+  (let ((result 0))
+    (declare (type array-index result)
+             (optimize (safety 0) (speed 3) (space 3)))
+  (maphash (lambda (k v)
+             (declare (ignore v))
+             (when (gethash k y)
+               (incf result)))
+           x)
+  result))
+
+(defun union-length (x y)
+  "Returns length of union of two strings. This function is supposed to be
+inlined."
+  (let ((temp (make-hash-table)))
+    (flet ((extract (h)
+             (maphash (lambda (k v)
+                        (declare (ignore v))
+                        (setf (gethash k temp) t))
+                      h)))
+      (extract x)
+      (extract y)
+      (hash-table-count temp))))
+
+(defun overlap (x y)
+  "This function calculates overlap coefficient between two given
+strings. Returned value is in range from 0 (no similarity) to 1 (exact match)."
+  (declare (type (simple-array character) x y)
+           (inline string-to-set intersection-length)
+           (optimize (safety 0) (speed 3) (space 3)))
+  (let ((x (string-to-set x))
+        (y (string-to-set y)))
+    (/ (the array-index (intersection-length x y))
+       (min (hash-table-count x)
+            (hash-table-count y)))))
+
+(defun jaccard (x y)
+  "Calculates Jaccard similarity coefficient for two strings. Returned value
+is in range from 0 (no similarity) to 1 (exact match)."
+  (declare (type (simple-array character) x y)
+           (inline string-to-set intersection-length)
+           (optimize (safety 0) (speed 3) (space 3)))
+  (let ((x (string-to-set x))
+        (y (string-to-set y)))
+    (if (and (zerop (hash-table-count x))
+             (zerop (hash-table-count y)))
+        1
+        (/ (the array-index (intersection-length x y))
+           (the array-index (union-length x y))))))
 
 (defun fast-find (char str str-len &optional (start 0))
   "Checks if CHAR is in STR. This function is supposed to be inlined."
@@ -152,45 +220,6 @@ strings, while 1 means exact match."
     (declare (type array-index i))
     (when (char= char (char str i))
       (return-from fast-find i))))
-
-(defun intersection-length (x y x-len y-len)
-  "Returns length of intersection of two strings. This function is supposed
-to be inlined."
-  (declare (type (simple-array character) x y)
-           (type array-index x-len y-len)
-           (inline fast-find)
-           (optimize (safety 0) (speed 3) (space 3)))
-  (let ((result 0))
-    (declare (type array-index result))
-    (dotimes (i x-len)
-      (when (fast-find (char x i) y y-len)
-        (incf result)))
-    result))
-
-(defun overlap (x y)
-  "This function calculates overlap coefficient between two given
-strings. Returned value is in range from 0 (no similarity) to 1 (exact match)."
-  (declare (type (simple-array character) x y)
-           (inline length intersection-length)
-           (optimize (safety 0) (speed 3) (space 3)))
-  (let ((x-len (length x))
-        (y-len (length y)))
-    (/ (the array-index (intersection-length x y x-len y-len))
-       (max x-len y-len))))
-
-(defun jaccard (x y)
-  "Calculates Jaccard distance between two strings. Returned value is in
-range from 0 (no similarity) to 1 (exact match)."
-  (declare (type (simple-array character) x y)
-           (inline length intersection-length)
-           (optimize (safety 0) (speed 3) (space 3)))
-  (let ((x-len (length x))
-        (y-len (length y)))
-    (if (and (zerop x-len)
-             (zerop y-len))
-        1
-        (/ (the array-index (intersection-length x y x-len y-len))
-           (the array-index (+ x-len y-len))))))
 
 (defun jaro (x y)
   "Calculates Jaro distance between two strings. Returned value is in range
@@ -205,6 +234,8 @@ from 0 (no similarity) to 1 (exact match)."
          (p 0)
          (pj 0))
     (declare (type array-index d m p pj))
+    (when (minusp d)
+      (setf d 0))
     (dotimes (i x-len)
       (declare (type array-index i))
       (let ((ch (char x i)))
@@ -213,8 +244,8 @@ from 0 (no similarity) to 1 (exact match)."
              done)
             ((or (null j) done))
           (declare (type (or array-index null) j))
-          (when (and j (< (the array-index (abs (- i j)))
-                          d))
+          (when (and j (<= (the array-index (abs (- i j)))
+                           d))
             (when (and (plusp pj)
                        (< j pj))
               (incf p))
@@ -242,8 +273,9 @@ from 0 (no similarity) to 1 (exact match)."
                (char= (char x i)
                       (char y i)))
           (incf result)
-          (return-from prefix-length result)))))
-  
+          (return-from prefix-length result)))
+    result))
+
 (defun jaro-winkler (x y)
   "Calculates Jaro-Winkler distance between two strings. Returned value is
 in range from 0 (no similarity) to 1 (exact match)."
