@@ -30,3 +30,11 @@
   :author       "Mark Karpov"
   :license      "MIT"
   :components   ((:file "mk-string-metrics")))
+
+(asdf:defsystem :mk-string-metrics-tests
+  :version      "0.1.1"
+  :description  "tests for mk-string-metrics"
+  :author       "Mark Karpov"
+  :license      "MIT"
+  :components   ((:file "tests"))
+  :depends-on   (:mk-string-metrics))
