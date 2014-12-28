@@ -199,7 +199,7 @@ strings. Returned value is in range from 0 (no similarity) to 1 (exact match)."
   "Calculates Jaccard similarity coefficient for two strings. Returned value
 is in range from 0 (no similarity) to 1 (exact match)."
   (declare (type (simple-array character) x y)
-           (inline string-to-set intersection-length)
+           (inline string-to-set intersection-length union-length)
            (optimize (safety 0) (speed 3) (space 3)))
   (let ((x (string-to-set x))
         (y (string-to-set y)))
