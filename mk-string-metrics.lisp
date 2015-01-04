@@ -24,18 +24,18 @@
 ;;; OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 ;;; WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(cl:defpackage :mk-string-metrics
-  (:nicknames  :mksm)
-  (:use        #:common-lisp)
-  (:export     #:hamming
-               #:levenshtein
-               #:damerau-levenshtein
-               #:norm-levenshtein
-               #:norm-damerau-levenshtein
-               #:overlap
-               #:jaccard
-               #:jaro
-               #:jaro-winkler))
+(defpackage   :mk-string-metrics
+  (:nicknames :mksm)
+  (:use       #:common-lisp)
+  (:export    #:hamming
+              #:levenshtein
+              #:damerau-levenshtein
+              #:norm-levenshtein
+              #:norm-damerau-levenshtein
+              #:overlap
+              #:jaccard
+              #:jaro
+              #:jaro-winkler))
 
 (in-package #:mk-string-metrics)
 
