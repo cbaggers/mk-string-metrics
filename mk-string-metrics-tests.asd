@@ -1,7 +1,6 @@
 ;;; -*- Mode: Lisp; Syntax: ANSI-Common-Lisp -*-
 ;;;
-;;; ASDF system definition for mk-string-metrics - library of efficient
-;;; implementations of various string metric algorithms.
+;;; ASDF system definition for mk-string-metrics-tests
 ;;;
 ;;; Copyright (c) 2014 Mark Karpov
 ;;;
@@ -24,9 +23,10 @@
 ;;; OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 ;;; WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(asdf:defsystem :mk-string-metrics
+(asdf:defsystem :mk-string-metrics-tests
   :version      "0.1.1"
-  :description  "efficient implementations of various string metric algorithms"
+  :description  "tests for mk-string-metrics"
   :author       "Mark Karpov"
   :license      "MIT"
-  :components   ((:file "mk-string-metrics")))
+  :components   ((:file "tests"))
+  :depends-on   (:mk-string-metrics))
