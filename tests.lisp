@@ -26,8 +26,8 @@
 (in-package #:mk-string-metrics)
 
 (defun run-tests ()
-  "Run mk-string-metrics tests. Signals failure if any test fails or returns
-NIL of all tests pass."
+  "Run MK-STRING-METRICS tests. Signal failure if any test fails and return
+NIL otherwise."
   ;; Damerau-Levenshtein distance
   (assert (= 4 (damerau-levenshtein "veryvery long" "very long")))
   (assert (= 4 (damerau-levenshtein "very long" "veryvery long")))
