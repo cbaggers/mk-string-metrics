@@ -39,12 +39,16 @@ damerau-levenshtein x y
 This function calculates Damerau-Levenshtein distance between two given
 strings.
 
+----
+
 ```
 hamming x y
 ```
 
 Calculates Hamming distance between two given strings, they have to be of
 the same length.
+
+----
 
 ```
 jaccard x y
@@ -53,12 +57,16 @@ jaccard x y
 Calculates Jaccard similarity coefficient for two strings. Returned value is
 in range from 0 (no similarity) to 1 (exact match).
 
+----
+
 ```
 jaro x y
 ```
 
 Calculates Jaro distance between two strings. Returned value is in range
 from 0 (no similarity) to 1 (exact match).
+
+----
 
 ```
 jaro-winkler x y
@@ -67,11 +75,15 @@ jaro-winkler x y
 Calculates Jaro-Winkler distance between two strings. Returned value is in
 range from 0 (no similarity) to 1 (exact match).
 
+----
+
 ```
 levenshtein x y
 ```
 
 This function calculates Levenshtein distance between two given strings.
+
+----
 
 ```
 norm-damerau-levenshtein x y
@@ -81,6 +93,8 @@ Returns normalized Damerau-Levenshtein distance between X and Y. Result is a
 real number from 0 to 1, where 0 signifies no similarity between the
 strings, while 1 means exact match.
 
+----
+
 ```
 norm-levenshtein x y
 ```
@@ -88,6 +102,8 @@ norm-levenshtein x y
 Returns normalized Levenshtein distance between X and Y. Result is a real
 number from 0 to 1, where 0 signifies no similarity between the strings,
 while 1 means exact match.
+
+----
 
 ```
 overlap x y
