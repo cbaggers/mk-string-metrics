@@ -1,9 +1,9 @@
 ;;; -*- Mode: Lisp; Syntax: ANSI-Common-Lisp -*-
 ;;;
-;;; mk-string-metrics - library of efficient implementations of various
+;;; mk-string-metrics — library of efficient implementations of various
 ;;; string metric algorithms.
 ;;;
-;;; Copyright (c) 2014 Mark Karpov
+;;; Copyright © 2014 Mark Karpov
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the
@@ -204,7 +204,7 @@ inlined."
   "This function calculates overlap coefficient between two given
 strings. Returned value is in range from 0 (no similarity) to 1 (exact match)."
   (declare (type (simple-array character) x y)
-           (inline string-to-set intersection-length length)
+           (inline length)
            (optimize (safety 0) (speed 3) (space 3)))
   (/ (the array-index (intersection-length (string-to-set x)
                                            (string-to-set y)))
@@ -215,7 +215,6 @@ strings. Returned value is in range from 0 (no similarity) to 1 (exact match)."
   "Calculates Jaccard similarity coefficient for two strings. Returned value
 is in range from 0 (no similarity) to 1 (exact match)."
   (declare (type (simple-array character) x y)
-           (inline string-to-set intersection-length union-length)
            (optimize (safety 0) (speed 3) (space 3)))
   (let ((x (string-to-set x))
         (y (string-to-set y)))
@@ -241,7 +240,7 @@ is in range from 0 (no similarity) to 1 (exact match)."
   "Calculates Jaro distance between two strings. Returned value is in range
 from 0 (no similarity) to 1 (exact match)."
   (declare (type (simple-array character) x y)
-           (inline length fast-find)
+           (inline length)
            (optimize (safety 0) (speed 1) (space 3)))
   (let* ((x-len (length x))
          (y-len (length y))

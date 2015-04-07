@@ -118,6 +118,6 @@ issue and tell me what's missing.
 
 ## License
 
-Copyright (c) 2014 Mark Karpov
+Copyright © 2014 Mark Karpov
 
 Distributed under MIT License.

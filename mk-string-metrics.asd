@@ -1,9 +1,9 @@
 ;;; -*- Mode: Lisp; Syntax: ANSI-Common-Lisp -*-
 ;;;
-;;; ASDF system definition for mk-string-metrics - library of efficient
+;;; ASDF system definition for mk-string-metrics — library of efficient
 ;;; implementations of various string metric algorithms.
 ;;;
-;;; Copyright (c) 2014 Mark Karpov
+;;; Copyright © 2014 Mark Karpov
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the
