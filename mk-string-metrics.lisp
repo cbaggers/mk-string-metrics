@@ -43,8 +43,8 @@
   (list 'integer 0 length))
 
 (defun hamming (x y)
-  "Calculates Hamming distance between two given strings, they have to be
-of the same length."
+  "Calculate Hamming distance between two given strings X and Y, they have
+to be of the same length."
   (declare (type (simple-array character) x y)
            (inline length)
            (optimize (safety 0) (speed 3) (space 3)))
@@ -57,8 +57,7 @@ of the same length."
         (incf result)))))
 
 (defun levenshtein (x y)
-  "This function calculates Levenshtein distance between two given
-strings."
+  "Calculate Levenshtein distance between two given strings X and Y."
   (declare (type (simple-array character) x y)
            (inline length)
            (optimize (safety 0) (speed 3) (space 3)))
@@ -85,8 +84,8 @@ strings."
       (rotatef v0 v1))))
 
 (defun damerau-levenshtein (x y)
-  "This function calculates Damerau-Levenshtein distance between two given
-strings."
+  "Calculate Damerau-Levenshtein distance between two given strings X and
+Y."
   (declare (type (simple-array character) x y)
            (inline length)
            (optimize (safety 0) (speed 3) (space 3)))
@@ -125,7 +124,7 @@ strings."
       (rotatef v* v0 v1))))
 
 (defun norm-levenshtein (x y)
-  "Returns normalized Levenshtein distance between X and Y. Result is a real
+  "Return normalized Levenshtein distance between X and Y. Result is a real
 number from 0 to 1, where 0 signifies no similarity between the strings,
 while 1 means exact match."
   (let ((r (levenshtein x y)))
@@ -136,8 +135,8 @@ while 1 means exact match."
                      (length y)))))))
 
 (defun norm-damerau-levenshtein (x y)
-  "Returns normalized Damerau-Levenshtein distance between X and Y. Result
-is a real number from 0 to 1, where 0 signifies no similarity between the
+  "Return normalized Damerau-Levenshtein distance between X and Y. Result is
+a real number from 0 to 1, where 0 signifies no similarity between the
 strings, while 1 means exact match."
   (let ((r (damerau-levenshtein x y)))
     (if (zerop r)
@@ -147,7 +146,7 @@ strings, while 1 means exact match."
                      (length y)))))))
 
 (defun string-to-set (str)
-  "Converts string into a set. This function is supposed to be inlined."
+  "Convert string STR into a set. This function is supposed to be inlined."
   (declare (type (simple-array character) str)
            (inline length)
            (optimize (safety 0) (speed 3) (space 3)))
@@ -160,8 +159,8 @@ strings, while 1 means exact match."
     result))
 
 (defun intersection-length (x y)
-  "Returns length of intersection of two strings. This function is supposed
-to be inlined."
+  "Returns length of intersection of two strings X and Y. This function is
+supposed to be inlined."
   (let ((result 0))
     (declare (type array-index result)
              (optimize (safety 0) (speed 3) (space 3)))
@@ -175,8 +174,8 @@ to be inlined."
     result))
 
 (defun union-length (x y)
-  "Returns length of union of two strings. This function is supposed to be
-inlined."
+  "Returns length of union of two strings X and Y. This function is supposed
+to be inlined."
   (let ((temp (make-hash-table))
         (result 0))
     (declare (type array-index result)
@@ -201,8 +200,9 @@ inlined."
       result)))
 
 (defun overlap (x y)
-  "This function calculates overlap coefficient between two given
-strings. Returned value is in range from 0 (no similarity) to 1 (exact match)."
+  "This function calculates overlap coefficient between two given strings X
+and Y. Returned value is in range from 0 (no similarity) to 1 (exact
+match)."
   (declare (type (simple-array character) x y)
            (inline length)
            (optimize (safety 0) (speed 3) (space 3)))
@@ -212,8 +212,8 @@ strings. Returned value is in range from 0 (no similarity) to 1 (exact match)."
           (length y))))
 
 (defun jaccard (x y)
-  "Calculates Jaccard similarity coefficient for two strings. Returned value
-is in range from 0 (no similarity) to 1 (exact match)."
+  "Calculate Jaccard similarity coefficient for two strings X and
+Y. Returned value is in range from 0 (no similarity) to 1 (exact match)."
   (declare (type (simple-array character) x y)
            (optimize (safety 0) (speed 3) (space 3)))
   (let ((x (string-to-set x))
@@ -225,7 +225,7 @@ is in range from 0 (no similarity) to 1 (exact match)."
            (the array-index (union-length x y))))))
 
 (defun fast-find (char str str-len &optional (start 0))
-  "Checks if CHAR is in STR. This function is supposed to be inlined."
+  "Check if CHAR is in STR. This function is supposed to be inlined."
   (declare (type character char)
            (type (simple-array character) str)
            (type array-index str-len start)
@@ -237,8 +237,8 @@ is in range from 0 (no similarity) to 1 (exact match)."
       (return-from fast-find i))))
 
 (defun jaro (x y)
-  "Calculates Jaro distance between two strings. Returned value is in range
-from 0 (no similarity) to 1 (exact match)."
+  "Calculate Jaro distance between two strings X and Y. Returned value is in
+range from 0 (no similarity) to 1 (exact match)."
   (declare (type (simple-array character) x y)
            (inline length)
            (optimize (safety 0) (speed 1) (space 3)))
@@ -276,7 +276,7 @@ from 0 (no similarity) to 1 (exact match)."
            3))))
 
 (defun prefix-length (x y)
-  "Calculates length of common prefix for strings X and Y."
+  "Calculate length of common prefix for strings X and Y."
   (declare (type (simple-array character) x y)
            (inline length)
            (optimize (safety 0) (speed 3) (space 3)))
@@ -293,8 +293,8 @@ from 0 (no similarity) to 1 (exact match)."
     result))
 
 (defun jaro-winkler (x y)
-  "Calculates Jaro-Winkler distance between two strings. Returned value is
-in range from 0 (no similarity) to 1 (exact match)."
+  "Calculate Jaro-Winkler distance between two strings X and Y. Returned
+value is in range from 0 (no similarity) to 1 (exact match)."
   (let ((jd (jaro x y))
         (l  (prefix-length x y)))
     (+ jd (* l 1/10 (- 1 jd)))))
