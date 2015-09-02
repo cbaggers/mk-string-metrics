@@ -4,20 +4,20 @@ This library implements efficient algorithms that calculate various string
 metrics in Common Lisp:
 
 * [Damerau-Levenshtein
-  distance](http://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance);
-* [Hamming distance](http://en.wikipedia.org/wiki/Hamming_distance);
+  distance](http://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
+* [Hamming distance](http://en.wikipedia.org/wiki/Hamming_distance)
 * [Jaccard similarity
-  coefficient](http://en.wikipedia.org/wiki/Jaccard_index);
+  coefficient](http://en.wikipedia.org/wiki/Jaccard_index)
 * [Jaro
-  distance](http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance);
+  distance](http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance)
 * [Jaro-Winkler
-  distance](http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance);
-* [Levenshtein distance](http://en.wikipedia.org/wiki/Levenshtein_distance);
+  distance](http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance)
+* [Levenshtein distance](http://en.wikipedia.org/wiki/Levenshtein_distance)
 * [Normalized Damerau-Levenshtein
-  distance](http://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance);
+  distance](http://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
 * [Normalized Levenshtein
-  distance](http://en.wikipedia.org/wiki/Levenshtein_distance);
-* [Overlap coefficient](http://en.wikipedia.org/wiki/Overlap_coefficient).
+  distance](http://en.wikipedia.org/wiki/Levenshtein_distance)
+* [Overlap coefficient](http://en.wikipedia.org/wiki/Overlap_coefficient)
 
 ## Installation
 
@@ -36,8 +36,8 @@ Via Quicklisp:
 damerau-levenshtein x y
 ```
 
-This function calculates Damerau-Levenshtein distance between two given
-strings.
+Calculate Damerau-Levenshtein distance between two given strings `x` and
+`y`.
 
 ----
 
@@ -45,8 +45,8 @@ strings.
 hamming x y
 ```
 
-Calculates Hamming distance between two given strings, they have to be of
-the same length.
+Calculate Hamming distance between two given strings `x` and `y`, they have
+to be of the same length.
 
 ----
 
@@ -54,8 +54,9 @@ the same length.
 jaccard x y
 ```
 
-Calculates Jaccard similarity coefficient for two strings. Returned value is
-in range from 0 (no similarity) to 1 (exact match).
+Calculate Jaccard similarity coefficient for two strings `x` and
+`y`. Returned value is in range from `0` (no similarity) to `1` (exact
+match).
 
 ----
 
@@ -63,8 +64,8 @@ in range from 0 (no similarity) to 1 (exact match).
 jaro x y
 ```
 
-Calculates Jaro distance between two strings. Returned value is in range
-from 0 (no similarity) to 1 (exact match).
+Calculate Jaro distance between two strings `x` and `y`. Returned value is
+in range from `0` (no similarity) to `1` (exact match).
 
 ----
 
@@ -72,8 +73,8 @@ from 0 (no similarity) to 1 (exact match).
 jaro-winkler x y
 ```
 
-Calculates Jaro-Winkler distance between two strings. Returned value is in
-range from 0 (no similarity) to 1 (exact match).
+Calculate Jaro-Winkler distance between two strings `x` and `y`. Returned
+value is in range from `0` (no similarity) to `1` (exact match).
 
 ----
 
@@ -81,7 +82,7 @@ range from 0 (no similarity) to 1 (exact match).
 levenshtein x y
 ```
 
-This function calculates Levenshtein distance between two given strings.
+Calculate Levenshtein distance between two given strings `x` and `y`.
 
 ----
 
@@ -89,9 +90,9 @@ This function calculates Levenshtein distance between two given strings.
 norm-damerau-levenshtein x y
 ```
 
-Returns normalized Damerau-Levenshtein distance between X and Y. Result is a
-real number from 0 to 1, where 0 signifies no similarity between the
-strings, while 1 means exact match.
+Return normalized Damerau-Levenshtein distance between `x` and `y`. Result
+is a real number from `0` to `1`, where `0` signifies no similarity between
+the strings, while `1` means exact match.
 
 ----
 
@@ -99,9 +100,9 @@ strings, while 1 means exact match.
 norm-levenshtein x y
 ```
 
-Returns normalized Levenshtein distance between X and Y. Result is a real
-number from 0 to 1, where 0 signifies no similarity between the strings,
-while 1 means exact match.
+Return normalized Levenshtein distance between `x` and `y`. Result is a real
+number from `0` to `1`, where `0` signifies no similarity between the
+strings, while `1` means exact match.
 
 ----
 
@@ -109,7 +110,9 @@ while 1 means exact match.
 overlap x y
 ```
 
-This function calculates overlap coefficient between two given strings.
+This function calculates overlap coefficient between two given strings `x`
+and `y`. Returned value is in range from `0` (no similarity) to `1` (exact
+match).
 
 ## Something missing?
 
