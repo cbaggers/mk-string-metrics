@@ -2,7 +2,7 @@
 ;;;
 ;;; This is some tests for mk-string-metrics library.
 ;;;
-;;; Copyright © 2014 Mark Karpov
+;;; Copyright © 2014–2015 Mark Karpov
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person obtaining a
 ;;; copy of this software and associated documentation files (the

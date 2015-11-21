@@ -1,5 +1,8 @@
 # mk-string-metrics
 
+[![License MIT](https://img.shields.io/badge/license-MIT-green.svg)](http://opensource.org/licenses/MIT)
+[![Quicklisp](http://quickdocs.org/badge/mk-string-metrics.svg)](http://quickdocs.org/mk-string-metrics/)
+
 This library implements efficient algorithms that calculate various string
 metrics in Common Lisp:
 
@@ -24,13 +27,13 @@ metrics in Common Lisp:
 Copy files of this library in any place where ASDF can find them. Then you
 can use it in system definitions and ASDF will take care of the rest.
 
-Via Quicklisp:
+Via Quicklisp (recommended):
 
-```
+```common-lisp
 (ql:quickload "mk-string-metrics")
 ```
 
-## Description
+## Documentation
 
 ```
 damerau-levenshtein x y
@@ -114,13 +117,8 @@ This function calculates overlap coefficient between two given strings `x`
 and `y`. Returned value is in range from `0` (no similarity) to `1` (exact
 match).
 
-## Something missing?
-
-Let me know if you would like to see more functions in this library. Open an
-issue and tell me what's missing.
-
 ## License
 
-Copyright © 2014 Mark Karpov
+Copyright © 2014–2015 Mark Karpov
 
 Distributed under MIT License.
