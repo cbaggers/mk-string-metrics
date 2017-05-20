@@ -57,9 +57,8 @@ to be of the same length.
 jaccard x y
 ```
 
-Calculate Jaccard similarity coefficient for two strings `x` and
-`y`. Returned value is in range from `0` (no similarity) to `1` (exact
-match).
+Calculate Jaccard similarity coefficient for two strings `x` and `y`.
+Returned value is in range from `0` (no similarity) to `1` (exact match).
 
 ----
 

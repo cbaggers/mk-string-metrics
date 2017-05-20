@@ -1,7 +1,7 @@
 ;;; -*- Mode: Lisp; Syntax: ANSI-Common-Lisp -*-
 ;;;
-;;; mk-string-metrics — library of efficient implementations of various
-;;; string metric algorithms.
+;;; mk-string-metrics—library of efficient implementations of various string
+;;; metric algorithms.
 ;;;
 ;;; Copyright © 2014–2017 Mark Karpov
 ;;;
