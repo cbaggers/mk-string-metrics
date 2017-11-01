@@ -24,7 +24,7 @@
 ;;; WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 (asdf:defsystem :mk-string-metrics-tests
-  :version      "0.1.1"
+  :version      "0.1.2"
   :description  "tests for mk-string-metrics"
   :author       "Mark Karpov"
   :license      "MIT"
