@@ -1,6 +1,7 @@
 # mk-string-metrics
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg)](http://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/mrkkrp/mk-string-metrics.svg?branch=master)](https://travis-ci.org/mrkkrp/mk-string-metrics)
 [![Quicklisp](http://quickdocs.org/badge/mk-string-metrics.svg)](http://quickdocs.org/mk-string-metrics/)
 
 This library implements efficient algorithms that calculate various string
