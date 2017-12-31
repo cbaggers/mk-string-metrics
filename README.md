@@ -119,6 +119,6 @@ match).
 
 ## License
 
-Copyright © 2014–2017 Mark Karpov
+Copyright © 2014–2018 Mark Karpov
 
 Distributed under MIT License.
